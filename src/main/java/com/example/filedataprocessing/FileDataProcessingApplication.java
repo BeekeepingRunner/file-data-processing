@@ -6,16 +6,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.filedataprocessing.ComponentNames.*;
 
 
 @SpringBootApplication
 public class FileDataProcessingApplication implements CommandLineRunner {
-
-	private final static String MAIN_FRAME = "Main frame";
-	private final static String MAIN_PANEL = "Main panel";
-	private final static String READ_FROM_FILE_BUTTON = "Read from file button";
 
 	private Map<String, Component> guiComponents = new HashMap<>();
 
@@ -27,66 +27,71 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		JFrame frame = new JFrame("Spring Boot Swing App");
-		guiComponents.put(MAIN_FRAME, frame);
+		initUI();
+	}
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(300,300);
+	private void initUI() {
+		JFrame frame = constructUIComponents();
+		setUIActions();
+		frame.setVisible(true);
+	}
+	private JFrame constructUIComponents() {
+		JFrame mainFrame = new JFrame("Spring Boot Swing App");
+		guiComponents.put(MAIN_FRAME, mainFrame);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(1500, 1000);
 
 		JPanel panel = createMainPanel();
 
-		frame.setContentPane(panel);
-
-		frame.setVisible(true);
+		mainFrame.setContentPane(panel);
+		return mainFrame;
 	}
+
 
 	private JPanel createMainPanel() {
-		JPanel panel = new JPanel(new GridBagLayout());
-		guiComponents.put(MAIN_PANEL, panel);
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		guiComponents.put(MAIN_PANEL, mainPanel);
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		JPanel buttonPanel = createButtonPanel();
+		mainPanel.add(buttonPanel, BorderLayout.NORTH);
 
-		JButton button = new JButton("Wczytaj dane z pliku");
-		guiComponents.put(READ_FROM_FILE_BUTTON, button);
-
-		button.setPreferredSize(new Dimension(200, 100));
-		button.addActionListener(event -> onReadFromFileClick());
-
-		gbc.weighty = 1;
-		panel.add(button, gbc);
-		return panel;
+		JPanel tablePanel = createTablePanel();
+		mainPanel.add(tablePanel, BorderLayout.CENTER);
+		return mainPanel;
 	}
 
-	private void onReadFromFileClick() {
-		guiComponents.get(MAIN_FRAME).setSize(1000, 500);
-		JPanel mainPanel = (JPanel) guiComponents.get(MAIN_PANEL);
-		mainPanel.removeAll();
-		mainPanel.setLayout(new BorderLayout());
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
+		guiComponents.put(BUTTON_PANEL, buttonPanel);
 
-		// add table panel
-		JPanel tablePanel = new JPanel();
-		JLabel placeholder = new JLabel("Table here");
-		tablePanel.add(placeholder);
-		mainPanel.add(tablePanel, BorderLayout.CENTER);
+		JButton readButton = new JButton("Wczytaj dane z pliku");
+		guiComponents.put(READ_FROM_FILE_BUTTON, readButton);
+		buttonPanel.add(readButton);
 
-		// add options panel
-		JPanel optionsPanel = new JPanel(new BorderLayout());
+		JButton saveToTxtButton = new JButton("Zapisz dane do .txt");
+		guiComponents.put(SAVE_TO_TXT_BUTTON, saveToTxtButton);
+		buttonPanel.add(saveToTxtButton);
+
+		JButton saveToXmlButton = new JButton("Zapisz dane do .xml");
+		guiComponents.put(SAVE_TO_XML_BUTTON, saveToXmlButton);
+		buttonPanel.add(saveToXmlButton);
+
+		return buttonPanel;
+	}
+
+	private JPanel createTablePanel() {
+		JPanel tablePanel = new JPanel(new BorderLayout());
+		guiComponents.put(TABLE_PANEL, tablePanel);
+		return tablePanel;
+	}
+
+	private void setUIActions() {
 		JButton readButton = (JButton) guiComponents.get(READ_FROM_FILE_BUTTON);
-		readButton.setText("Wczytaj dane z innego pliku");
-		readButton.setPreferredSize(new Dimension(300, 50));
-		optionsPanel.add(readButton);
+		readButton.addActionListener(this::readButtonAction);
+	}
 
-		JButton saveToTxtButton = new JButton("Zapisz do txt");
-		saveToTxtButton.setPreferredSize(new Dimension(200, 50));
-		optionsPanel.add(saveToTxtButton);
-
-		JButton saveToXmlButton = new JButton("Zapisz do XML");
-		saveToXmlButton.setPreferredSize(new Dimension(200, 50));
-		optionsPanel.add(saveToXmlButton);
-
-		mainPanel.add(optionsPanel, BorderLayout.SOUTH);
+	private void readButtonAction(ActionEvent e) {
+		File file = FileReader.chooseFileFromFileSystem();
+		// todo: read text data from csv or xml and load it in JTable
 	}
 }
