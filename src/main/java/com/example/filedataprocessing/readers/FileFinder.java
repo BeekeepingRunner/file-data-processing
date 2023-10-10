@@ -1,9 +1,9 @@
-package com.example.filedataprocessing;
+package com.example.filedataprocessing.readers;
 
 import javax.swing.*;
 import java.io.File;
 
-public class FileReader {
+public class FileFinder {
 
     public static File chooseFileFromFileSystem() {
         JFileChooser fileChooser = new JFileChooser();
@@ -15,7 +15,7 @@ public class FileReader {
             }
 
             String filename = file.getName();
-            if (!filename.endsWith(".txt") || !filename.endsWith(".xml")) {
+            if (!filename.endsWith(".txt") && !filename.endsWith(".xml")) {
                 throw new RuntimeException("Wrong file format - only .txt and .xml allowed");
             }
 

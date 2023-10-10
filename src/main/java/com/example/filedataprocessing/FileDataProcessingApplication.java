@@ -1,5 +1,10 @@
 package com.example.filedataprocessing;
 
+import com.example.filedataprocessing.datamodel.LaptopTableModel;
+import com.example.filedataprocessing.datamodel.UILaptop;
+import com.example.filedataprocessing.readers.CsvFileReader;
+import com.example.filedataprocessing.readers.FileFinder;
+import com.example.filedataprocessing.readers.XmlFileReader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -9,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.filedataprocessing.ComponentNames.*;
@@ -91,7 +97,35 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 	}
 
 	private void readButtonAction(ActionEvent e) {
-		File file = FileReader.chooseFileFromFileSystem();
-		// todo: read text data from csv or xml and load it in JTable
+		File file = FileFinder.chooseFileFromFileSystem();
+		if (file == null) {
+			return;
+		}
+
+		if (file.getName().endsWith(".txt")) {
+			List<UILaptop> laptops = CsvFileReader.parseObjectsFrom(file, UILaptop.class);
+			reloadMainTable(laptops);
+		} else if (file.getName().endsWith(".xml")) {
+			XmlFileReader.readXmlFile(file);
+			// ...
+			// loadMainTable(laptops);
+		}
 	}
+
+	private void reloadMainTable(List<UILaptop> laptops) {
+		// todo: we probably should create table at the beginning to show it
+		LaptopTableModel model = new LaptopTableModel(laptops);
+		JTable mainTable = new JTable(model) {
+			@Override
+			public Dimension getPreferredScrollableViewportSize() {
+				return new Dimension(1400, 900);
+			}
+		};
+
+		guiComponents.put(MAIN_TABLE, mainTable);
+
+		JPanel tablePanel = (JPanel) guiComponents.get(TABLE_PANEL);
+		tablePanel.add(mainTable, BorderLayout.CENTER);
+	}
+
 }
