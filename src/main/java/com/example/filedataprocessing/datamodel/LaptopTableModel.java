@@ -1,29 +1,65 @@
 package com.example.filedataprocessing.datamodel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LaptopTableModel extends AbstractTableModel {
 
+    @Setter
     private List<UILaptop> laptops = new ArrayList<>();
-    private String[] columnNames = {
-            "Producent",
-            "Wielkość matrycy",
-            "Rozdzielczość",
-            "Typ matrycy",
-            "Czy dotykowy ekran",
-            "Procesor",
-            "Liczba rdzeni fizycznych",
-            "Taktowanie",
-            "RAM",
-            "Pojemność dysku",
-            "Typ dysku",
-            "Karta graficzna",
-            "Pamięć karty graficznej",
-            "System operacyjny",
-            "Napęd optyczny"
+
+    @Getter
+    public enum ColumnNames {
+        PRODUCENT(0, "Producent"),
+        WIELKOSC_MATRYCY(1, "Wielkość matrycy"),
+        ROZDZIELCZOSC(2, "Rozdzielczość"),
+        TYP_MATRYCY(3, "Typ matrycy"),
+        CZY_DOTYKOWY_EKRAN(4, "Czy dotykowy ekran"),
+        PROCESOR(5, "Procesor"),
+        LICZBA_RDZENI_FIZYCZNYCH(6, "Liczba rdzeni fizycznych"),
+        TAKTOWANIE(7, "Taktowanie"),
+        RAM(8, "RAM"),
+        POJEMNOSC_DYSKU(9, "Pojemność dysku"),
+        TYP_DYSKU(10, "Typ dysku"),
+        KARTA_GRAFICZNA(11, "Karta graficzna"),
+        PAMIEC_KARTY_GRAFICZNEJ(12, "Pamięć karty graficznej"),
+        SYSTEM_OPERACYJNY(13, "System operacyjny"),
+        NAPED_OPTYCZNY(14, "Napęd optyczny");
+
+        private final int index;
+        private final String value;
+
+        ColumnNames(int index, String value) {
+            this.index = index;
+            this.value = value;
+        }
+
+        static String getValue(int index) {
+            return Arrays.stream(ColumnNames.values())
+                    .filter(columnName -> columnName.getIndex() == index)
+                    .map(ColumnNames::getValue)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Index " + index + " out of bounds of enum indexes"));
+        }
+
+        static ColumnNames ofIndex(int index) {
+            return Arrays.stream(values())
+                    .filter(colName -> colName.getIndex() == index)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Index " + index + " out of bounds of enum indexes"));
+        }
     };
+
+    public LaptopTableModel() {
+    }
 
     public LaptopTableModel(List<UILaptop> laptops) {
         this.laptops = laptops;
@@ -36,35 +72,49 @@ public class LaptopTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return columnNames.length;
+        return ColumnNames.values().length;
     }
 
     @Override
     public String getColumnName(int column) {
-        return columnNames[column];
+        return ColumnNames.getValue(column);
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object laptopAttribute = null;
         UILaptop laptop = laptops.get(rowIndex);
-        switch (columnIndex) {
-            case 0 -> laptopAttribute = laptop.getManufacturer();
-            case 1 -> laptopAttribute = laptop.getScreenResolution();
-            case 2 -> laptopAttribute = laptop.getScreenSize();
-            case 3 -> laptopAttribute = laptop.getHasTouchScreen();
-            case 4 -> laptopAttribute = laptop.getProcessorName();
-            case 5 -> laptopAttribute = laptop.getPhysicalCoresNum();
-            case 6 -> laptopAttribute = laptop.getClockSpeed();
-            case 7 -> laptopAttribute = laptop.getRamSize();
-            case 8 -> laptopAttribute = laptop.getDiscStorageSize();
-            case 9 -> laptopAttribute = laptop.getDiscType();
-            case 10 -> laptopAttribute = laptop.getGraphicCardName();
-            case 11 -> laptopAttribute = laptop.getGraphicCardMemory();
-            case 12 -> laptopAttribute = laptop.getOsName();
-            case 13 -> laptopAttribute = laptop.getDiscReader();
+        ColumnNames columnName = ColumnNames.ofIndex(columnIndex);
+        switch (columnName) {
+            case PRODUCENT -> laptopAttribute = laptop.getManufacturer();
+            case WIELKOSC_MATRYCY -> laptopAttribute = laptop.getScreenSize();
+            case TYP_MATRYCY -> laptopAttribute = laptop.getScreenType();
+            case ROZDZIELCZOSC -> laptopAttribute = laptop.getScreenResolution();
+            case CZY_DOTYKOWY_EKRAN -> laptopAttribute = laptop.getHasTouchScreen();
+            case PROCESOR -> laptopAttribute = laptop.getProcessorName();
+            case LICZBA_RDZENI_FIZYCZNYCH -> laptopAttribute = laptop.getPhysicalCoresNum();
+            case TAKTOWANIE -> laptopAttribute = laptop.getClockSpeed();
+            case RAM -> laptopAttribute = laptop.getRamSize();
+            case POJEMNOSC_DYSKU -> laptopAttribute = laptop.getDiscStorageSize();
+            case TYP_DYSKU -> laptopAttribute = laptop.getDiscType();
+            case KARTA_GRAFICZNA -> laptopAttribute = laptop.getGraphicCardName();
+            case PAMIEC_KARTY_GRAFICZNEJ -> laptopAttribute = laptop.getGraphicCardMemory();
+            case SYSTEM_OPERACYJNY -> laptopAttribute = laptop.getOsName();
+            case NAPED_OPTYCZNY -> laptopAttribute = laptop.getDiscReader();
         }
 
         return laptopAttribute;
+    }
+
+    public TableColumnModel getColumnModel() {
+        TableColumnModel columnModel = new DefaultTableColumnModel();
+
+        for (int i = 0; i < ColumnNames.values().length; ++i) {
+            TableColumn tableColumn = new TableColumn(i);
+            tableColumn.setHeaderValue(ColumnNames.getValue(i));
+            columnModel.addColumn(tableColumn);
+        }
+
+        return columnModel;
     }
 }

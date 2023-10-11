@@ -9,4 +9,5 @@ public interface ComponentNames {
     String SAVE_TO_TXT_BUTTON = "Save to txt button";
     String SAVE_TO_XML_BUTTON = "Save to xml button";
     String MAIN_TABLE = "Main table";
+    String MAIN_TABLE_SCROLL_PANE = "Main table scroll pane";
 }

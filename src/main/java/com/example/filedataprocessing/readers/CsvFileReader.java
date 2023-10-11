@@ -16,6 +16,7 @@ public class CsvFileReader {
             CsvToBean<T> cb = new CsvToBeanBuilder<T>(reader)
                     .withType(resultObjectClass)
                     .withSeparator(';')
+                    .withIgnoreQuotations(true)
                     .build();
 
             return cb.parse();

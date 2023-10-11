@@ -11,41 +11,44 @@ public class UILaptop {
     private String manufacturer;
 
     @CsvBindByPosition(position = 1)
-    private String screenResolution;
-
-    @CsvBindByPosition(position = 2)
     private String screenSize;
 
+    @CsvBindByPosition(position = 2)
+    private String screenType;
+
     @CsvBindByPosition(position = 3)
-    private String hasTouchScreen;
+    private String screenResolution;
 
     @CsvBindByPosition(position = 4)
-    private String processorName;
+    private String hasTouchScreen;
 
     @CsvBindByPosition(position = 5)
-    private String physicalCoresNum;
+    private String processorName;
 
     @CsvBindByPosition(position = 6)
-    private String clockSpeed;
+    private String physicalCoresNum;
 
     @CsvBindByPosition(position = 7)
-    private String ramSize;
+    private String clockSpeed;
 
     @CsvBindByPosition(position = 8)
-    private String discStorageSize;
+    private String ramSize;
 
     @CsvBindByPosition(position = 9)
-    private String discType;
+    private String discStorageSize;
 
     @CsvBindByPosition(position = 10)
-    private String graphicCardName;
+    private String discType;
 
     @CsvBindByPosition(position = 11)
-    private String graphicCardMemory;
+    private String graphicCardName;
 
     @CsvBindByPosition(position = 12)
-    private String osName;
+    private String graphicCardMemory;
 
     @CsvBindByPosition(position = 13)
+    private String osName;
+
+    @CsvBindByPosition(position = 14)
     private String discReader;
 }

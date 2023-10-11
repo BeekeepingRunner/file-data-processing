@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -88,6 +89,16 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 	private JPanel createTablePanel() {
 		JPanel tablePanel = new JPanel(new BorderLayout());
 		guiComponents.put(TABLE_PANEL, tablePanel);
+
+		LaptopTableModel tableModel = new LaptopTableModel();
+		JTable mainTable = new JTable(tableModel);
+		mainTable.setColumnModel(tableModel.getColumnModel());
+		guiComponents.put(MAIN_TABLE, mainTable);
+
+		JScrollPane tableScrollPane = new JScrollPane(mainTable);
+		guiComponents.put(MAIN_TABLE_SCROLL_PANE, tableScrollPane);
+
+		tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 		return tablePanel;
 	}
 
@@ -113,19 +124,10 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 	}
 
 	private void reloadMainTable(List<UILaptop> laptops) {
-		// todo: we probably should create table at the beginning to show it
+		JTable mainTable = (JTable) guiComponents.get(MAIN_TABLE);
 		LaptopTableModel model = new LaptopTableModel(laptops);
-		JTable mainTable = new JTable(model) {
-			@Override
-			public Dimension getPreferredScrollableViewportSize() {
-				return new Dimension(1400, 900);
-			}
-		};
-
-		guiComponents.put(MAIN_TABLE, mainTable);
-
-		JPanel tablePanel = (JPanel) guiComponents.get(TABLE_PANEL);
-		tablePanel.add(mainTable, BorderLayout.CENTER);
+		mainTable.setModel(model);
+		mainTable.repaint();
 	}
 
 }
