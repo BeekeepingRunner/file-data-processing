@@ -2,15 +2,17 @@ package com.example.filedataprocessing;
 
 import com.example.filedataprocessing.datamodel.LaptopTableModel;
 import com.example.filedataprocessing.datamodel.UILaptop;
+import com.example.filedataprocessing.mappers.LaptopModelMapper;
 import com.example.filedataprocessing.readers.CsvFileReader;
 import com.example.filedataprocessing.readers.FileFinder;
-import com.example.filedataprocessing.readers.XmlFileReader;
+import com.example.filedataprocessing.readers.xml.XmlFileReader;
+import com.example.filedataprocessing.readers.xml.model.jaxb.gen.Laptops;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -117,9 +119,9 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 			List<UILaptop> laptops = CsvFileReader.parseObjectsFrom(file, UILaptop.class);
 			reloadMainTable(laptops);
 		} else if (file.getName().endsWith(".xml")) {
-			XmlFileReader.readXmlFile(file);
-			// ...
-			// loadMainTable(laptops);
+			Laptops laptops = XmlFileReader.readXmlFile(file);
+			List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.xmlLaptopsToUILaptops(laptops);
+			reloadMainTable(uiLaptops);
 		}
 	}
 
