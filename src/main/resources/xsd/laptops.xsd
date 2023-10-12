@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="/jaxb/gen"
+        xmlns:laptopsns="/jaxb/gen"
+        elementFormDefault="qualified">
+
+    <element name="laptops" type="laptopsns:Laptops"/>
+
+    <complexType name="Laptops">
+        <sequence>
+            <element name="laptop" type="laptopsns:Laptop" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Laptop">
+        <sequence>
+            <element name="manufacturer" type="string"/>
+            <element name="screen" type="laptopsns:Screen"/>
+            <element name="processor" type="laptopsns:Processor"/>
+            <element name="ram" type="string"/>
+            <element name="disc" type="laptopsns:Disc"/>
+            <element name="graphic_card" type="laptopsns:GraphicCard"/>
+            <element name="os" type="string"/>
+            <element name="disc_reader" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Screen">
+        <sequence>
+            <element name="size" type="string"/>
+            <element name="type" type="string"/>
+            <element name="touchscreen" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Processor">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="physical_cores" type="string"/>
+            <element name="clock_speed" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Disc">
+        <sequence>
+            <element name="storage" type="string"/>
+            <element name="type" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="GraphicCard">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="memory" type="string"/>
+        </sequence>
+    </complexType>
+</schema>
