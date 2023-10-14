@@ -1,7 +1,5 @@
-package com.example.filedataprocessing.readers;
+package com.example.filedataprocessing.fileprocessors;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;

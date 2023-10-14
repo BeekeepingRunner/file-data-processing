@@ -10,25 +10,25 @@ Generated on: 2023.10.14 at 05:20:48 PM CEST
   -->
   <bindings scd="x-schema::tns" xmlns:tns="/jaxb/gen">
     <schemaBindings map="false">
-      <package name="com.example.filedataprocessing.readers.xml.model.jaxb.gen"/>
+      <package name="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen"/>
     </schemaBindings>
     <bindings scd="~tns:laptops">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.Laptops"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Laptops"/>
     </bindings>
     <bindings scd="~tns:laptop">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.Laptop"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Laptop"/>
     </bindings>
     <bindings scd="~tns:screen">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.Screen"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Screen"/>
     </bindings>
     <bindings scd="~tns:processor">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.Processor"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Processor"/>
     </bindings>
     <bindings scd="~tns:disc">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.Disc"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Disc"/>
     </bindings>
     <bindings scd="~tns:graphicCard">
-      <class ref="com.example.filedataprocessing.readers.xml.model.jaxb.gen.GraphicCard"/>
+      <class ref="com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.GraphicCard"/>
     </bindings>
   </bindings>
 </bindings>

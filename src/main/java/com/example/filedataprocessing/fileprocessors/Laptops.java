@@ -1,4 +1,4 @@
-package com.example.filedataprocessing.readers;
+package com.example.filedataprocessing.fileprocessors;
 
 import jakarta.xml.bind.annotation.*;
 

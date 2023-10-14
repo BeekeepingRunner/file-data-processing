@@ -1,4 +1,4 @@
-package com.example.filedataprocessing.datamodel;
+package com.example.filedataprocessing.datamodel.ui;
 
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.filedataprocessing.datamodel;
+package com.example.filedataprocessing.datamodel.ui;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.example.filedataprocessing.readers.xml.model.jaxb.gen;
+package com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen;
 
 import jakarta.xml.bind.annotation.*;
 

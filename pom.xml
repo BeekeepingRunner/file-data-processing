@@ -104,7 +104,7 @@
 					</sources>
 					<outputDirectory>${basedir}/src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>
-					<packageName>com.example.filedataprocessing.readers.xml.model.jaxb.gen</packageName>
+					<packageName>com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen</packageName>
 					<arguments>
 						<argument>-Xsetters</argument>
 					</arguments>
