@@ -1,7 +1,12 @@
 package com.example.filedataprocessing.datamodel.ui;
 
+import com.example.filedataprocessing.datamodel.independent.Laptop;
+import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
+import com.example.filedataprocessing.mappers.LaptopModelMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableColumnModel;
@@ -13,6 +18,7 @@ import java.util.List;
 
 public class LaptopTableModel extends AbstractTableModel {
 
+    @Getter
     @Setter
     private List<UILaptop> laptops = new ArrayList<>();
 

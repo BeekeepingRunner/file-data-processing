@@ -52,7 +52,7 @@ public class ButtonActions {
         this.temporaryDataManager.setLaptops(independentLaptops);
     }
 
-    public void saveTableDataToFile(FileType fileType) {
+    public void saveTableDataToFile(FileType fileType, List<Laptop> laptops) {
         File file = FilePicker.chooseFileToSave();
         if (file == null) {
             return;
@@ -61,27 +61,26 @@ public class ButtonActions {
         switch (fileType) {
             case TXT -> {
                 if (!file.getName().endsWith(".txt")) {
-                    populateCsvFromTable(file);
+                    throw new RuntimeException("Cannot save data to file: incorrect file extension (should be .txt)");
                 }
+                populateCsvFromTable(file, laptops);
             }
             case XML -> {
                 if (!file.getName().endsWith(".xml")) {
-                    populateXmlFromTable(file);
+                    throw new RuntimeException("Cannot save data to file: incorrect file extension (should be .xml)");
                 }
+                populateXmlFromTable(file, laptops);
             }
         }
     }
 
-    // todo: finish methods
-    private void populateXmlFromTable(File xmlFile) {
-        List<Laptop> laptops = temporaryDataManager.getLaptops();
+    private void populateXmlFromTable(File xmlFile, List<Laptop> laptops) {
         Laptops xmlLaptops = LaptopModelMapper.INSTANCE.toXmlLaptops(laptops);
         XmlFileProcessor.saveXmlFile(xmlFile, xmlLaptops);
     }
 
-    private void populateCsvFromTable(File csvFile) {
-        List<Laptop> laptops = temporaryDataManager.getLaptops();
+    private void populateCsvFromTable(File csvFile, List<Laptop> laptops) {
         List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUILaptops(laptops);
-        // todo: use OpenCSV to save CSV
+        CsvFileProcessor.saveCsvFile(csvFile, uiLaptops);
     }
 }

@@ -30,12 +30,13 @@ public class CsvFileProcessor {
         }
     }
 
-    public static <T> void saveCsvFile(File file, T csvModel) {
+    public static <T> void saveCsvFile(File file, List<T> csvRowElements) {
         try (Writer writer = Files.newBufferedWriter(file.toPath())) {
             new StatefulBeanToCsvBuilder<T>(writer)
                     .withSeparator(';')
+                    .withApplyQuotesToAll(false)
                     .build()
-                    .write(csvModel);
+                    .write(csvRowElements);
         } catch (IOException e) {
             throw new RuntimeException("Cannot save .csv file from data object", e);
         } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {

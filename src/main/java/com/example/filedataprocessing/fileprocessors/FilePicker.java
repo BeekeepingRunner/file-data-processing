@@ -2,6 +2,8 @@ package com.example.filedataprocessing.fileprocessors;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FilePicker {
 
@@ -31,11 +33,16 @@ public class FilePicker {
     public static File chooseFileToSave() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wskaż plik do zapisu");
+
         int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            if (file == null) {
-                throw new RuntimeException("File not found");
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    throw new RuntimeException("Cannot save a file", e);
+                }
             }
 
             return file;

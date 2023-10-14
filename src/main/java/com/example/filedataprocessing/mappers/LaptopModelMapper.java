@@ -44,7 +44,19 @@ public interface LaptopModelMapper {
                 .collect(Collectors.toList());
     }
 
-    // todo: make mappings
+    @Mapping(target = "screen.size", source = "screenSize")
+    @Mapping(target = "screen.type", source = "screenType")
+    @Mapping(target = "screen.touchscreen", source = "hasTouchScreen")
+    @Mapping(target = "screen.resolution", source = "screenResolution")
+    @Mapping(target = "processor.name", source = "processorName")
+    @Mapping(target = "processor.physicalCores", source = "physicalCoresNum")
+    @Mapping(target = "processor.clockSpeed", source = "clockSpeed")
+    @Mapping(target = "ram", source = "ramSize")
+    @Mapping(target = "disc.storage", source = "discStorageSize")
+    @Mapping(target = "disc.type", source = "discType")
+    @Mapping(target = "graphicCard.name", source = "graphicCardName")
+    @Mapping(target = "graphicCard.memory", source = "graphicCardMemory")
+    @Mapping(target = "os", source = "osName")
     com.example.filedataprocessing.datamodel.independent.Laptop toIndependentLaptop(UILaptop laptop);
 
     default List<com.example.filedataprocessing.datamodel.independent.Laptop> toIndependentLaptops(List<UILaptop> laptops) {
@@ -65,7 +77,19 @@ public interface LaptopModelMapper {
         return xmlRootLaptopsElement;
     }
 
-    // todo: make mappings
+    @Mapping(target = "screenSize", source = "laptop.screen.size")
+    @Mapping(target = "screenType", source = "laptop.screen.type")
+    @Mapping(target = "hasTouchScreen", source = "laptop.screen.touchscreen")
+    @Mapping(target = "screenResolution", source = "laptop.screen.resolution")
+    @Mapping(target = "processorName", source = "laptop.processor.name")
+    @Mapping(target = "physicalCoresNum", source = "laptop.processor.physicalCores")
+    @Mapping(target = "clockSpeed", source = "laptop.processor.clockSpeed")
+    @Mapping(target = "ramSize", source = "laptop.ram")
+    @Mapping(target = "discStorageSize", source = "laptop.disc.storage")
+    @Mapping(target = "discType", source = "laptop.disc.type")
+    @Mapping(target = "graphicCardName", source = "laptop.graphicCard.name")
+    @Mapping(target = "graphicCardMemory", source = "laptop.graphicCard.memory")
+    @Mapping(target = "osName", source = "laptop.os")
     UILaptop toUILaptop(com.example.filedataprocessing.datamodel.independent.Laptop laptop);
 
     default List<UILaptop> toUILaptops(List<com.example.filedataprocessing.datamodel.independent.Laptop> laptops) {

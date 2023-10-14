@@ -1,9 +1,12 @@
 package com.example.filedataprocessing;
 
 import com.example.filedataprocessing.actions.ButtonActions;
+import com.example.filedataprocessing.datamodel.independent.Laptop;
+import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
 import com.example.filedataprocessing.datamodel.ui.LaptopTableModel;
 import com.example.filedataprocessing.datamodel.ui.UILaptop;
 import com.example.filedataprocessing.fileprocessors.FileType;
+import com.example.filedataprocessing.mappers.LaptopModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
@@ -19,6 +22,9 @@ public class UiManager {
 
     @Autowired
     private ButtonActions buttonActions;
+
+    @Autowired
+    private TemporaryDataManager temporaryDataManager;
 
     private static Map<String, Component> guiComponents = new HashMap<>();
 
@@ -93,10 +99,23 @@ public class UiManager {
         readButton.addActionListener(e -> buttonActions.populateTableFromFile());
 
         JButton saveToTxtButton = (JButton) guiComponents.get(SAVE_TO_TXT_BUTTON);
-        saveToTxtButton.addActionListener(e -> buttonActions.saveTableDataToFile(FileType.TXT));
+        saveToTxtButton.addActionListener(e -> {
+            List<Laptop> laptops = getLaptopsFromTable();
+            buttonActions.saveTableDataToFile(FileType.TXT, laptops);
+        });
 
         JButton saveToXmlButton = (JButton) guiComponents.get(SAVE_TO_XML_BUTTON);
-        saveToXmlButton.addActionListener(e -> buttonActions.saveTableDataToFile(FileType.XML));
+        saveToXmlButton.addActionListener(e -> {
+            List<Laptop> laptops = getLaptopsFromTable();
+            buttonActions.saveTableDataToFile(FileType.XML, laptops);
+        });
+    }
+
+    private static List<Laptop> getLaptopsFromTable() {
+        JTable mainTable = (JTable) guiComponents.get(MAIN_TABLE);
+        LaptopTableModel model = (LaptopTableModel) mainTable.getModel();
+        List<UILaptop> laptops = model.getLaptops();
+        return LaptopModelMapper.INSTANCE.toIndependentLaptops(laptops);
     }
 
     public static void reloadMainTable(List<UILaptop> laptops) {
