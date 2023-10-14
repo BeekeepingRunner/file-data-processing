@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
+<schema version="1.0"
+        xmlns="http://www.w3.org/2001/XMLSchema"
         targetNamespace="/jaxb/gen"
         xmlns:laptopsns="/jaxb/gen"
         elementFormDefault="qualified">
 
-    <element name="laptops" type="laptopsns:Laptops"/>
+    <element name="laptops" type="laptopsns:laptops"/>
 
-    <complexType name="Laptops">
+    <complexType name="laptops">
         <sequence>
-            <element name="laptop" type="laptopsns:Laptop" maxOccurs="unbounded"/>
+            <element name="laptop" type="laptopsns:laptop" maxOccurs="unbounded" nillable="false"/>
         </sequence>
     </complexType>
 
-    <complexType name="Laptop">
+    <complexType name="laptop">
         <sequence>
             <element name="manufacturer" type="string"/>
-            <element name="screen" type="laptopsns:Screen"/>
-            <element name="processor" type="laptopsns:Processor"/>
+            <element name="screen" type="laptopsns:screen"/>
+            <element name="processor" type="laptopsns:processor"/>
             <element name="ram" type="string"/>
-            <element name="disc" type="laptopsns:Disc"/>
-            <element name="graphic_card" type="laptopsns:GraphicCard"/>
+            <element name="disc" type="laptopsns:disc"/>
+            <element name="graphic_card" type="laptopsns:graphicCard"/>
             <element name="os" type="string"/>
             <element name="disc_reader" type="string"/>
         </sequence>
     </complexType>
 
-    <complexType name="Screen">
+    <complexType name="screen">
         <sequence>
             <element name="size" type="string"/>
             <element name="type" type="string"/>
@@ -33,7 +34,7 @@
         </sequence>
     </complexType>
 
-    <complexType name="Processor">
+    <complexType name="processor">
         <sequence>
             <element name="name" type="string"/>
             <element name="physical_cores" type="string"/>
@@ -41,14 +42,14 @@
         </sequence>
     </complexType>
 
-    <complexType name="Disc">
+    <complexType name="disc">
         <sequence>
             <element name="storage" type="string"/>
             <element name="type" type="string"/>
         </sequence>
     </complexType>
 
-    <complexType name="GraphicCard">
+    <complexType name="graphicCard">
         <sequence>
             <element name="name" type="string"/>
             <element name="memory" type="string"/>

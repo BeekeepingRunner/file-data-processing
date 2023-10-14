@@ -7,7 +7,6 @@ import com.example.filedataprocessing.readers.CsvFileReader;
 import com.example.filedataprocessing.readers.FileFinder;
 import com.example.filedataprocessing.readers.xml.XmlFileReader;
 import com.example.filedataprocessing.readers.xml.model.jaxb.gen.Laptops;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -119,7 +118,7 @@ public class FileDataProcessingApplication implements CommandLineRunner {
 			List<UILaptop> laptops = CsvFileReader.parseObjectsFrom(file, UILaptop.class);
 			reloadMainTable(laptops);
 		} else if (file.getName().endsWith(".xml")) {
-			Laptops laptops = XmlFileReader.readXmlFile(file);
+			Laptops laptops = XmlFileReader.parseXmlFile(file);
 			List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.xmlLaptopsToUILaptops(laptops);
 			reloadMainTable(uiLaptops);
 		}

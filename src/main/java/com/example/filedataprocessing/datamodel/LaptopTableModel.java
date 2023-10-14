@@ -106,6 +106,30 @@ public class LaptopTableModel extends AbstractTableModel {
         return laptopAttribute;
     }
 
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        String newValue = (String) aValue;
+        UILaptop laptop = laptops.get(rowIndex);
+        ColumnNames columnName = ColumnNames.ofIndex(columnIndex);
+        switch (columnName) {
+            case PRODUCENT -> laptop.setManufacturer(newValue);
+            case WIELKOSC_MATRYCY -> laptop.setScreenSize(newValue);
+            case TYP_MATRYCY -> laptop.setScreenType(newValue);
+            case ROZDZIELCZOSC -> laptop.setScreenResolution(newValue);
+            case CZY_DOTYKOWY_EKRAN -> laptop.setHasTouchScreen(newValue);
+            case PROCESOR -> laptop.setProcessorName(newValue);
+            case LICZBA_RDZENI_FIZYCZNYCH -> laptop.setPhysicalCoresNum(newValue);
+            case TAKTOWANIE -> laptop.setClockSpeed(newValue);
+            case RAM -> laptop.setRamSize(newValue);
+            case POJEMNOSC_DYSKU -> laptop.setDiscStorageSize(newValue);
+            case TYP_DYSKU -> laptop.setDiscType(newValue);
+            case KARTA_GRAFICZNA -> laptop.setGraphicCardName(newValue);
+            case PAMIEC_KARTY_GRAFICZNEJ -> laptop.setGraphicCardMemory(newValue);
+            case SYSTEM_OPERACYJNY -> laptop.setOsName(newValue);
+            case NAPED_OPTYCZNY -> laptop.setDiscReader(newValue);
+        }
+    }
+
     public TableColumnModel getColumnModel() {
         TableColumnModel columnModel = new DefaultTableColumnModel();
 
@@ -116,5 +140,10 @@ public class LaptopTableModel extends AbstractTableModel {
         }
 
         return columnModel;
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
     }
 }
