@@ -15,6 +15,7 @@
 	<artifactId>file-data-processing</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>file-data-processing</name>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>17</java.version>
