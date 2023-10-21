@@ -90,6 +90,7 @@ public class ButtonActions {
         List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUILaptops(laptops);
         List<com.example.filedataprocessing.db.repositories.model.Laptop> dbLaptops =
                 LaptopModelMapper.INSTANCE.toDbLaptops(uiLaptops);
+        laptopRepository.deleteAll(); // xD
         laptopRepository.saveAll(dbLaptops);
     }
 }

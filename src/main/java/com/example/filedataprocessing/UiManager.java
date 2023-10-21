@@ -4,6 +4,7 @@ import com.example.filedataprocessing.actions.ButtonActions;
 import com.example.filedataprocessing.datamodel.independent.Laptop;
 import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
 import com.example.filedataprocessing.datamodel.ui.LaptopTableModel;
+import com.example.filedataprocessing.datamodel.ui.RecordStatus;
 import com.example.filedataprocessing.datamodel.ui.UILaptop;
 import com.example.filedataprocessing.fileprocessors.FileType;
 import com.example.filedataprocessing.mappers.LaptopModelMapper;
@@ -135,15 +136,41 @@ public class UiManager {
         return LaptopModelMapper.INSTANCE.toIndependentLaptops(laptops);
     }
 
-    public static void reloadMainTable(List<UILaptop> laptops) {
+    public static void reloadMainTable(List<UILaptop> newLaptops) {
+        prepareLaptopOrdinals(newLaptops);
+        List<UILaptop> oldTableLaptops = LaptopModelMapper.INSTANCE.toUILaptops(getLaptopsFromTable());
+        compareTableData(oldTableLaptops, newLaptops);
+
+        // load new data to component
         Component tableComponent = guiComponents.get(MAIN_TABLE);
         if (tableComponent == null) {
             throw new RuntimeException("Main table has not been instantiated");
         }
-
         JTable mainTable = (JTable) tableComponent;
-        LaptopTableModel model = new LaptopTableModel(laptops);
+        LaptopTableModel model = new LaptopTableModel(newLaptops);
         mainTable.setModel(model);
         mainTable.repaint();
+    }
+
+    private static void prepareLaptopOrdinals(List<UILaptop> laptops) {
+        for (int i = 0; i < laptops.size(); ++i) {
+            UILaptop laptop = laptops.get(i);
+            laptop.setOrdinal(i + 1L);
+        }
+    }
+
+    private static void compareTableData(List<UILaptop> oldTableLaptops, List<UILaptop> newLaptops) {
+        if (oldTableLaptops.isEmpty()) {
+            return;
+        }
+
+        for (UILaptop newLaptop : newLaptops) {
+            for (UILaptop oldLaptop : oldTableLaptops) {
+                if (newLaptop.equals(oldLaptop)) {
+                    newLaptop.setRecordStatus(RecordStatus.DUPLICATE);
+                    break;
+                }
+            }
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.example.filedataprocessing.datamodel.independent;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Screen {
 
     protected String size;

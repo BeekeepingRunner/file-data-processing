@@ -1,12 +1,18 @@
 package com.example.filedataprocessing.datamodel.ui;
 
 import com.opencsv.bean.CsvBindByPosition;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class UILaptop {
+
+    private Long ordinal;
+    private RecordStatus recordStatus = RecordStatus.NEW;
+
     @CsvBindByPosition(position = 0)
     private String manufacturer;
 

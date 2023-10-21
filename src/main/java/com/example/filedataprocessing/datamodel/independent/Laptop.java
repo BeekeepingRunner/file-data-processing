@@ -1,12 +1,16 @@
 package com.example.filedataprocessing.datamodel.independent;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Laptop {
+
+    protected Long ordinal;
 
     protected String manufacturer;
     protected Screen screen;
