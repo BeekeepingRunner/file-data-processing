@@ -85,4 +85,11 @@ public class ButtonActions {
         List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUILaptops(laptops);
         CsvFileProcessor.saveCsvFile(csvFile, uiLaptops);
     }
+
+    public void exportTableDataToDb(List<Laptop> laptops) {
+        List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUILaptops(laptops);
+        List<com.example.filedataprocessing.db.repositories.model.Laptop> dbLaptops =
+                LaptopModelMapper.INSTANCE.toDbLaptops(uiLaptops);
+        laptopRepository.saveAll(dbLaptops);
+    }
 }

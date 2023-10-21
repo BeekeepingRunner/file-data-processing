@@ -105,4 +105,12 @@ public interface LaptopModelMapper {
                 .map(this::toUiLaptop)
                 .collect(Collectors.toList());
     }
+
+    com.example.filedataprocessing.db.repositories.model.Laptop toDbLaptop(UILaptop uiLaptop);
+
+    default List<com.example.filedataprocessing.db.repositories.model.Laptop> toDbLaptops(List<UILaptop> uiLaptops) {
+        return uiLaptops.stream()
+                .map(this::toDbLaptop)
+                .collect(Collectors.toList());
+    }
 }

@@ -79,6 +79,10 @@ public class UiManager {
         guiComponents.put(SAVE_TO_XML_BUTTON, saveToXmlButton);
         buttonPanel.add(saveToXmlButton);
 
+        JButton exportToDbButton = new JButton("Eksportuj dane do bazy");
+        guiComponents.put(EXPORT_TO_DB_BUTTON, exportToDbButton);
+        buttonPanel.add(exportToDbButton);
+
         return buttonPanel;
     }
 
@@ -115,6 +119,12 @@ public class UiManager {
         saveToXmlButton.addActionListener(e -> {
             List<Laptop> laptops = getLaptopsFromTable();
             buttonActions.saveTableDataToFile(FileType.XML, laptops);
+        });
+
+        JButton exportToDbButton = (JButton) guiComponents.get(EXPORT_TO_DB_BUTTON);
+        exportToDbButton.addActionListener(e -> {
+            List<Laptop> laptops = getLaptopsFromTable();
+            buttonActions.exportTableDataToDb(laptops);
         });
     }
 
