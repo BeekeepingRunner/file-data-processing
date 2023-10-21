@@ -63,9 +63,13 @@ public class UiManager {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
         guiComponents.put(BUTTON_PANEL, buttonPanel);
 
-        JButton readButton = new JButton("Wczytaj dane z pliku");
-        guiComponents.put(READ_FROM_FILE_BUTTON, readButton);
-        buttonPanel.add(readButton);
+        JButton readFromTxtButton = new JButton("Wczytaj dane z pliku");
+        guiComponents.put(READ_FROM_FILE_BUTTON, readFromTxtButton);
+        buttonPanel.add(readFromTxtButton);
+
+        JButton readFromDbButton = new JButton("Wczytaj dane z bazy");
+        guiComponents.put(READ_FROM_DB_BUTTON, readFromDbButton);
+        buttonPanel.add(readFromDbButton);
 
         JButton saveToTxtButton = new JButton("Zapisz dane do .txt");
         guiComponents.put(SAVE_TO_TXT_BUTTON, saveToTxtButton);
@@ -95,8 +99,11 @@ public class UiManager {
     }
 
     private void setUIActions() {
-        JButton readButton = (JButton) guiComponents.get(READ_FROM_FILE_BUTTON);
-        readButton.addActionListener(e -> buttonActions.populateTableFromFile());
+        JButton readFromTxtButton = (JButton) guiComponents.get(READ_FROM_FILE_BUTTON);
+        readFromTxtButton.addActionListener(e -> buttonActions.populateTableFromFile());
+
+        JButton readFromDbButton = (JButton) guiComponents.get(READ_FROM_DB_BUTTON);
+        readFromDbButton.addActionListener(e -> buttonActions.populateTableFromDb());
 
         JButton saveToTxtButton = (JButton) guiComponents.get(SAVE_TO_TXT_BUTTON);
         saveToTxtButton.addActionListener(e -> {
