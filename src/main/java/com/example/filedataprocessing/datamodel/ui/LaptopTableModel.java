@@ -134,6 +134,8 @@ public class LaptopTableModel extends AbstractTableModel {
             case SYSTEM_OPERACYJNY -> laptop.setOsName(newValue);
             case NAPED_OPTYCZNY -> laptop.setDiscReader(newValue);
         }
+
+        laptop.setRecordStatus(RecordStatus.MODIFIED);
     }
 
     public TableColumnModel getColumnModel() {

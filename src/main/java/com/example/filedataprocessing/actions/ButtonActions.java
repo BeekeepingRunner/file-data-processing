@@ -40,6 +40,7 @@ public class ButtonActions {
         } else if (file.getName().endsWith(FilePicker.XML_FILE_SUFFIX)) {
             Laptops xmlLaptops = XmlFileProcessor.parseXmlFile(file);
             this.temporaryDataManager.setXmlLaptops(xmlLaptops);
+            uiLaptops = LaptopModelMapper.INSTANCE.xmlLaptopsToUILaptops(xmlLaptops);
         }
 
         UiManager.reloadMainTable(uiLaptops);

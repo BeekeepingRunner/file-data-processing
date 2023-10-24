@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +97,9 @@ public class UiManager {
         LaptopTableModel tableModel = new LaptopTableModel();
         JTable mainTable = new JTable(tableModel);
         mainTable.setColumnModel(tableModel.getColumnModel());
+        mainTable.addPropertyChangeListener(evt -> {
+            mainTable.repaint();
+        });
         guiComponents.put(MAIN_TABLE, mainTable);
 
         JScrollPane tableScrollPane = new JScrollPane(mainTable);
@@ -140,6 +145,8 @@ public class UiManager {
     public static void reloadMainTable(List<UILaptop> newLaptops) {
         prepareLaptopOrdinals(newLaptops);
         List<UILaptop> oldTableLaptops = LaptopModelMapper.INSTANCE.toUILaptops(getLaptopsFromTable());
+        prepareLaptopOrdinals(oldTableLaptops);
+
         compareTableData(oldTableLaptops, newLaptops);
 
         // load new data to component
@@ -151,8 +158,7 @@ public class UiManager {
         LaptopTableModel model = new LaptopTableModel(newLaptops);
         mainTable.setModel(model);
 
-        mainTable.setDefaultRenderer(UILaptop.class, new LaptopTableRenderer());
-
+        mainTable.setDefaultRenderer(Object.class, new LaptopTableRenderer());
         mainTable.repaint();
     }
 
