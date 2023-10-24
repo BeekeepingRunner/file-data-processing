@@ -11,7 +11,6 @@ import java.util.Objects;
 @Setter
 public class UILaptop {
 
-    private Long ordinal;
     private RecordStatus recordStatus = RecordStatus.NEW;
 
     @CsvBindByPosition(position = 0)

@@ -1,8 +1,18 @@
 package com.example.filedataprocessing;
 
+import static com.example.filedataprocessing.ComponentNames.BUTTON_PANEL;
+import static com.example.filedataprocessing.ComponentNames.EXPORT_TO_DB_BUTTON;
+import static com.example.filedataprocessing.ComponentNames.MAIN_FRAME;
+import static com.example.filedataprocessing.ComponentNames.MAIN_PANEL;
+import static com.example.filedataprocessing.ComponentNames.MAIN_TABLE;
+import static com.example.filedataprocessing.ComponentNames.MAIN_TABLE_SCROLL_PANE;
+import static com.example.filedataprocessing.ComponentNames.READ_FROM_DB_BUTTON;
+import static com.example.filedataprocessing.ComponentNames.READ_FROM_FILE_BUTTON;
+import static com.example.filedataprocessing.ComponentNames.SAVE_TO_TXT_BUTTON;
+import static com.example.filedataprocessing.ComponentNames.SAVE_TO_XML_BUTTON;
+import static com.example.filedataprocessing.ComponentNames.TABLE_PANEL;
 import com.example.filedataprocessing.actions.ButtonActions;
 import com.example.filedataprocessing.datamodel.independent.Laptop;
-import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
 import com.example.filedataprocessing.datamodel.ui.LaptopTableModel;
 import com.example.filedataprocessing.datamodel.ui.LaptopTableRenderer;
 import com.example.filedataprocessing.datamodel.ui.RecordStatus;
@@ -13,22 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.example.filedataprocessing.ComponentNames.*;
 
 @org.springframework.stereotype.Component
 public class UiManager {
 
     @Autowired
     private ButtonActions buttonActions;
-
-    @Autowired
-    private TemporaryDataManager temporaryDataManager;
 
     private static Map<String, Component> guiComponents = new HashMap<>();
 
@@ -143,10 +146,7 @@ public class UiManager {
     }
 
     public static void reloadMainTable(List<UILaptop> newLaptops) {
-        prepareLaptopOrdinals(newLaptops);
         List<UILaptop> oldTableLaptops = LaptopModelMapper.INSTANCE.toUILaptops(getLaptopsFromTable());
-        prepareLaptopOrdinals(oldTableLaptops);
-
         compareTableData(oldTableLaptops, newLaptops);
 
         // load new data to component
@@ -161,14 +161,7 @@ public class UiManager {
         mainTable.setDefaultRenderer(Object.class, new LaptopTableRenderer());
         mainTable.repaint();
     }
-
-    private static void prepareLaptopOrdinals(List<UILaptop> laptops) {
-        for (int i = 0; i < laptops.size(); ++i) {
-            UILaptop laptop = laptops.get(i);
-            laptop.setOrdinal(i + 1L);
-        }
-    }
-
+    
     private static void compareTableData(List<UILaptop> oldTableLaptops, List<UILaptop> newLaptops) {
         if (oldTableLaptops.isEmpty()) {
             return;

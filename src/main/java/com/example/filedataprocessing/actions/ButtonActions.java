@@ -2,15 +2,14 @@ package com.example.filedataprocessing.actions;
 
 import com.example.filedataprocessing.UiManager;
 import com.example.filedataprocessing.datamodel.independent.Laptop;
-import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
 import com.example.filedataprocessing.datamodel.ui.UILaptop;
 import com.example.filedataprocessing.db.repositories.LaptopRepository;
-import com.example.filedataprocessing.mappers.LaptopModelMapper;
 import com.example.filedataprocessing.fileprocessors.CsvFileProcessor;
 import com.example.filedataprocessing.fileprocessors.FilePicker;
 import com.example.filedataprocessing.fileprocessors.FileType;
 import com.example.filedataprocessing.fileprocessors.xml.XmlFileProcessor;
 import com.example.filedataprocessing.fileprocessors.xml.model.jaxb.gen.Laptops;
+import com.example.filedataprocessing.mappers.LaptopModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +19,6 @@ import java.util.List;
 
 @Component
 public class ButtonActions {
-
-    @Autowired
-    private TemporaryDataManager temporaryDataManager;
 
     @Autowired
     private LaptopRepository laptopRepository;
@@ -36,10 +32,8 @@ public class ButtonActions {
         List<UILaptop> uiLaptops = new ArrayList<>();
         if (file.getName().endsWith(FilePicker.TXT_FILE_SUFFIX)) {
             uiLaptops = CsvFileProcessor.parseObjectsFrom(file, UILaptop.class);
-            this.temporaryDataManager.setUILaptops(uiLaptops);
         } else if (file.getName().endsWith(FilePicker.XML_FILE_SUFFIX)) {
             Laptops xmlLaptops = XmlFileProcessor.parseXmlFile(file);
-            this.temporaryDataManager.setXmlLaptops(xmlLaptops);
             uiLaptops = LaptopModelMapper.INSTANCE.xmlLaptopsToUILaptops(xmlLaptops);
         }
 
@@ -50,8 +44,6 @@ public class ButtonActions {
     public void populateTableFromDb() {
         List<com.example.filedataprocessing.db.repositories.model.Laptop> dbLaptops = laptopRepository.findAll();
         List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUiLaptops(dbLaptops);
-        this.temporaryDataManager.setUILaptops(uiLaptops);
-
         UiManager.reloadMainTable(uiLaptops);
     }
 
