@@ -4,6 +4,7 @@ import com.example.filedataprocessing.actions.ButtonActions;
 import com.example.filedataprocessing.datamodel.independent.Laptop;
 import com.example.filedataprocessing.datamodel.independent.TemporaryDataManager;
 import com.example.filedataprocessing.datamodel.ui.LaptopTableModel;
+import com.example.filedataprocessing.datamodel.ui.LaptopTableRenderer;
 import com.example.filedataprocessing.datamodel.ui.RecordStatus;
 import com.example.filedataprocessing.datamodel.ui.UILaptop;
 import com.example.filedataprocessing.fileprocessors.FileType;
@@ -149,6 +150,9 @@ public class UiManager {
         JTable mainTable = (JTable) tableComponent;
         LaptopTableModel model = new LaptopTableModel(newLaptops);
         mainTable.setModel(model);
+
+        mainTable.setDefaultRenderer(UILaptop.class, new LaptopTableRenderer());
+
         mainTable.repaint();
     }
 
