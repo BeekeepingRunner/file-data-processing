@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @org.springframework.stereotype.Component
-public class UiManager {
+public class TableVisualizerUiManager {
 
     @Autowired
     private ButtonActions buttonActions;
@@ -161,7 +161,7 @@ public class UiManager {
         mainTable.setDefaultRenderer(Object.class, new LaptopTableRenderer());
         mainTable.repaint();
     }
-    
+
     private static void compareTableData(List<UILaptop> oldTableLaptops, List<UILaptop> newLaptops) {
         if (oldTableLaptops.isEmpty()) {
             return;

@@ -1,6 +1,6 @@
 package com.example.filedataprocessing.actions;
 
-import com.example.filedataprocessing.UiManager;
+import com.example.filedataprocessing.TableVisualizerUiManager;
 import com.example.filedataprocessing.datamodel.independent.Laptop;
 import com.example.filedataprocessing.datamodel.ui.UILaptop;
 import com.example.filedataprocessing.db.repositories.LaptopRepository;
@@ -37,14 +37,14 @@ public class ButtonActions {
             uiLaptops = LaptopModelMapper.INSTANCE.xmlLaptopsToUILaptops(xmlLaptops);
         }
 
-        UiManager.reloadMainTable(uiLaptops);
+        TableVisualizerUiManager.reloadMainTable(uiLaptops);
     }
 
 
     public void populateTableFromDb() {
         List<com.example.filedataprocessing.db.repositories.model.Laptop> dbLaptops = laptopRepository.findAll();
         List<UILaptop> uiLaptops = LaptopModelMapper.INSTANCE.toUiLaptops(dbLaptops);
-        UiManager.reloadMainTable(uiLaptops);
+        TableVisualizerUiManager.reloadMainTable(uiLaptops);
     }
 
     public void saveTableDataToFile(FileType fileType, List<Laptop> laptops) {
