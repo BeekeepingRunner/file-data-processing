@@ -3,7 +3,8 @@
            targetNamespace="http://spring.io/guides/gs-producing-web-service"
            elementFormDefault="qualified">
 
-    <!-- Getting count of laptops of a given producer -->
+    <!-- Getting count of laptops of a given producer
+    -->
     <xs:element name="getProducerLaptopCountRequest">
         <xs:complexType>
             <xs:sequence>
@@ -20,7 +21,8 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Getting count of laptops with a given screen proportions -->
+    <!-- Getting count of laptops with a given screen proportions
+    -->
     <xs:element name="getProportionLaptopsCountRequest">
         <xs:complexType>
             <xs:sequence>
@@ -37,4 +39,35 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <!-- Getting a list of all laptops with requested properties to display
+    -->
+    <xs:element name="getLaptopListRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="propertyName" type="xs:string" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getLaptopListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="laptop" type="Laptop"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Laptop">
+        <xs:sequence>
+            <xs:element name="property" type="Property" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Property">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
