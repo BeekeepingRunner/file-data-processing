@@ -7,13 +7,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 
 @SpringBootApplication
-public class FileDataProcessingApplication implements CommandLineRunner {
+public class FileDataProcessingServerApplication implements CommandLineRunner {
 
 	@Autowired
 	private TableVisualizerUiManager uiManager;
 
 	public static void main(String[] args) {
-		new SpringApplicationBuilder(FileDataProcessingApplication.class)
+		new SpringApplicationBuilder(FileDataProcessingServerApplication.class)
 				.headless(false)
 				.run(args);
 	}

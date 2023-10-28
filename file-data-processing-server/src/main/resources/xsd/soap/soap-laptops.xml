@@ -1,0 +1,40 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+           targetNamespace="http://spring.io/guides/gs-producing-web-service"
+           elementFormDefault="qualified">
+
+    <!-- Getting count of laptops of a given producer -->
+    <xs:element name="getProducerLaptopCountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="producerName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProducerLaptopCountResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="laptopCount" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Getting count of laptops with a given screen proportions -->
+    <xs:element name="getProportionLaptopsCountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="proportion_16_9" type="xs:boolean"/>
+                <xs:element name="proportion_16_10" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProportionLaptopsCountResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
