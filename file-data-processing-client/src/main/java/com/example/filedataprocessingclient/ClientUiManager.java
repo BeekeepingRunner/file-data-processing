@@ -52,13 +52,17 @@ public class ClientUiManager {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
         guiComponents.put(BUTTON_PANEL, buttonPanel);
 
-        /*JButton readFromTxtButton = new JButton("Wczytaj dane z pliku");
-        guiComponents.put(READ_FROM_FILE_BUTTON, readFromTxtButton);
-        buttonPanel.add(readFromTxtButton);
+        JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów producenta");
+        guiComponents.put(GET_PRODUCER_LAPTOP_COUNT_BUTTON, getLaptopCountButton);
+        buttonPanel.add(getLaptopCountButton);
 
-        JButton readFromDbButton = new JButton("Wczytaj dane z bazy");
-        guiComponents.put(READ_FROM_DB_BUTTON, readFromDbButton);
-        buttonPanel.add(readFromDbButton);*/
+        JButton screenRatioLaptopsButton = new JButton("Pobierz liczbę laptopów o proporcjach ekranu");
+        guiComponents.put(GET_SCREEN_RATIO_LAPTOP_COUNT_BUTTON, screenRatioLaptopsButton);
+        buttonPanel.add(screenRatioLaptopsButton);
+
+        JButton exportButton = new JButton("Eksportuj do XML");
+        guiComponents.put(EXPORT_BUTTON, exportButton);
+        buttonPanel.add(exportButton);
 
         return buttonPanel;
     }
