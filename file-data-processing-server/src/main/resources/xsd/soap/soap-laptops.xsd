@@ -42,7 +42,7 @@
 
     <!-- Getting a list of all laptops with requested properties to display
     -->
-    <xs:element name="getLaptopListRequest">
+   <!-- <xs:element name="getLaptopListRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="propertyName" type="xs:string" maxOccurs="unbounded"/>
@@ -69,5 +69,5 @@
             <xs:element name="name" type="xs:string"/>
             <xs:element name="value" type="xs:string"/>
         </xs:sequence>
-    </xs:complexType>
+    </xs:complexType>-->
 </xs:schema>

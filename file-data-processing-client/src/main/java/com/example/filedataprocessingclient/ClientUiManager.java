@@ -40,11 +40,33 @@ public class ClientUiManager {
         JPanel mainPanel = new JPanel(new BorderLayout());
         guiComponents.put(MAIN_CONTAINER_PANEL, mainPanel);
 
-        JPanel buttonPanel = createButtonPanel();
-        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        // producer laptop count panel
+        JPanel producerLaptopCountPanel = new JPanel(new BorderLayout());
+        mainPanel.add(producerLaptopCountPanel, BorderLayout.NORTH);
 
-        JPanel tablePanel = createMainDisplayPanel();
-        mainPanel.add(tablePanel, BorderLayout.CENTER);
+        JPanel lapCountLabel = new JPanel(new BorderLayout());
+        producerLaptopCountPanel.add(lapCountLabel, BorderLayout.NORTH);
+
+        JLabel producerLabel = new JLabel("Wprowadź producenta:");
+        lapCountLabel.add(producerLabel, BorderLayout.NORTH);
+
+        // result line
+        JPanel prodCountResultPanel = new JPanel(new BorderLayout());
+        producerLaptopCountPanel.add(prodCountResultPanel, BorderLayout.SOUTH);
+
+        JTextField producerInput = new JTextField("", 30);
+        prodCountResultPanel.add(producerInput, BorderLayout.WEST);
+
+        JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów producenta");
+        getLaptopCountButton.addActionListener(e -> {
+
+        });
+        guiComponents.put(GET_PRODUCER_LAPTOP_COUNT_BUTTON, getLaptopCountButton);
+        prodCountResultPanel.add(getLaptopCountButton, BorderLayout.CENTER);
+
+        JLabel producerLapCountResultLabel = new JLabel("Liczba laptopów: ...");
+        prodCountResultPanel.add(producerLapCountResultLabel, BorderLayout.EAST);
+
         return mainPanel;
     }
 
@@ -65,15 +87,5 @@ public class ClientUiManager {
         buttonPanel.add(exportButton);
 
         return buttonPanel;
-    }
-
-    private JPanel createMainDisplayPanel() {
-        JPanel mainDisplayPanel = new JPanel(new BorderLayout());
-        guiComponents.put(MAIN_DISPLAY_PANEL, mainDisplayPanel);
-
-        // ...
-
-
-        return mainDisplayPanel;
     }
 }
