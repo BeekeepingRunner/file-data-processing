@@ -1,5 +1,8 @@
 package com.example.filedataprocessingclient;
 
+import com.example.filedataprocessingclient.soapclient.LaptopClient;
+import com.example.filedataprocessingclient.soapservice.GetProducerLaptopCountResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -12,8 +15,8 @@ import static com.example.filedataprocessingclient.ComponentNames.*;
 @Component
 public class ClientUiManager {
 
-    // @Autowired
-    // private ButtonActions buttonActions;
+    @Autowired
+    private LaptopClient laptopClient;
 
     private static Map<String, java.awt.Component> guiComponents = new HashMap<>();
 
@@ -58,14 +61,17 @@ public class ClientUiManager {
         prodCountResultPanel.add(producerInput, BorderLayout.WEST);
 
         JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów producenta");
-        getLaptopCountButton.addActionListener(e -> {
 
-        });
         guiComponents.put(GET_PRODUCER_LAPTOP_COUNT_BUTTON, getLaptopCountButton);
         prodCountResultPanel.add(getLaptopCountButton, BorderLayout.CENTER);
 
         JLabel producerLapCountResultLabel = new JLabel("Liczba laptopów: ...");
         prodCountResultPanel.add(producerLapCountResultLabel, BorderLayout.EAST);
+        getLaptopCountButton.addActionListener(e -> {
+            GetProducerLaptopCountResponse response = laptopClient.getProducerLaptopCount(producerInput.getText());
+            long laptopCount = response.getLaptopCount();
+
+        });
 
         return mainPanel;
     }
