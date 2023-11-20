@@ -21,6 +21,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -63,16 +69,15 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
-        <dependency>
-            <groupId>wsdl4j</groupId>
-            <artifactId>wsdl4j</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- tag::wsdl[] -->
             <plugin>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
@@ -87,13 +92,14 @@
                 <configuration>
                     <packageName>com.example.filedataprocessingclient.consumingwebservice.wsdl</packageName>
                     <wsdlUrls>
-                        <wsdlUrl>http://localhost:8080/ws/soapservice.wsdl</wsdlUrl>
+                        <wsdlUrl>http://localhost:8080/ws/soapLaptops.wsdl</wsdlUrl>
                     </wsdlUrls>
-                    <sourceDestDir>target/wsdl/source</sourceDestDir>
-                    <destDir>target/wsdl/dest</destDir>
+                    <sourceDestDir>target/generated-sources/soap</sourceDestDir>
+                    <destDir>target/classes/soap</destDir>
                     <extension>true</extension>
                 </configuration>
             </plugin>
+            <!-- end::wsdl[] -->
         </plugins>
     </build>
 </project>
