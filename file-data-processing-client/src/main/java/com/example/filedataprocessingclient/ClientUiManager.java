@@ -2,6 +2,7 @@ package com.example.filedataprocessingclient;
 
 
 import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProducerLaptopCountResponse;
+import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProportionLaptopsCountResponse;
 import com.example.filedataprocessingclient.soapclient.LaptopClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,15 +45,21 @@ public class ClientUiManager {
         JPanel mainPanel = new JPanel(new BorderLayout());
         guiComponents.put(MAIN_CONTAINER_PANEL, mainPanel);
 
+        createProducerLaptopCountPanel(mainPanel);
+        createScreenRatioLaptopCountPanel(mainPanel);
+        return mainPanel;
+    }
+
+    private void createProducerLaptopCountPanel(JPanel mainPanel) {
         // producer laptop count panel
         JPanel producerLaptopCountPanel = new JPanel(new BorderLayout());
         mainPanel.add(producerLaptopCountPanel, BorderLayout.NORTH);
 
-        JPanel lapCountLabel = new JPanel(new BorderLayout());
-        producerLaptopCountPanel.add(lapCountLabel, BorderLayout.NORTH);
+        JPanel lapCountLabelPanel = new JPanel(new BorderLayout());
+        producerLaptopCountPanel.add(lapCountLabelPanel, BorderLayout.NORTH);
 
         JLabel producerLabel = new JLabel("Wprowadź producenta:");
-        lapCountLabel.add(producerLabel, BorderLayout.NORTH);
+        lapCountLabelPanel.add(producerLabel, BorderLayout.NORTH);
 
         // result line
         JPanel prodCountResultPanel = new JPanel(new BorderLayout());
@@ -62,37 +69,50 @@ public class ClientUiManager {
         prodCountResultPanel.add(producerInput, BorderLayout.WEST);
 
         JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów producenta");
-
-        guiComponents.put(GET_PRODUCER_LAPTOP_COUNT_BUTTON, getLaptopCountButton);
         prodCountResultPanel.add(getLaptopCountButton, BorderLayout.CENTER);
 
         JLabel producerLapCountResultLabel = new JLabel("Liczba laptopów: ...");
         prodCountResultPanel.add(producerLapCountResultLabel, BorderLayout.EAST);
+
         getLaptopCountButton.addActionListener(e -> {
             GetProducerLaptopCountResponse response = laptopClient.getProducerLaptopCountResponse(producerInput.getText());
             long laptopCount = response.getLaptopCount();
-            System.out.println(laptopCount);
+            producerLapCountResultLabel.setText("Liczba laptopów: " + laptopCount);
         });
-
-        return mainPanel;
     }
 
-    private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
-        guiComponents.put(BUTTON_PANEL, buttonPanel);
+    private void createScreenRatioLaptopCountPanel(JPanel mainPanel) {
+        JPanel screenRatioMainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(screenRatioMainPanel, BorderLayout.CENTER);
 
-        JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów producenta");
-        guiComponents.put(GET_PRODUCER_LAPTOP_COUNT_BUTTON, getLaptopCountButton);
-        buttonPanel.add(getLaptopCountButton);
+        JPanel screenRatioLabelPanel = new JPanel(new BorderLayout());
+        screenRatioMainPanel.add(screenRatioLabelPanel, BorderLayout.NORTH);
 
-        JButton screenRatioLaptopsButton = new JButton("Pobierz liczbę laptopów o proporcjach ekranu");
-        guiComponents.put(GET_SCREEN_RATIO_LAPTOP_COUNT_BUTTON, screenRatioLaptopsButton);
-        buttonPanel.add(screenRatioLaptopsButton);
+        JLabel screenRatioLabel = new JLabel("Wybierz proporcje ekranu:");
+        screenRatioLabelPanel.add(screenRatioLabel, BorderLayout.NORTH);
 
-        JButton exportButton = new JButton("Eksportuj do XML");
-        guiComponents.put(EXPORT_BUTTON, exportButton);
-        buttonPanel.add(exportButton);
+        // result line
+        JPanel ratioCountResultContainer = new JPanel(new BorderLayout());
+        screenRatioMainPanel.add(ratioCountResultContainer, BorderLayout.CENTER);
 
-        return buttonPanel;
+        JPanel ratioCountResultPanel = new JPanel(new BorderLayout());
+        ratioCountResultContainer.add(ratioCountResultPanel, BorderLayout.NORTH);
+
+        String[] screenRatios = { "16x9", "16x10" };
+        JComboBox<String> screenRatioList = new JComboBox<>(screenRatios);
+        ratioCountResultPanel.add(screenRatioList, BorderLayout.WEST);
+
+        JButton getLaptopCountButton = new JButton("Pobierz liczbę laptopów o wskazanej proporcji");
+        ratioCountResultPanel.add(getLaptopCountButton, BorderLayout.CENTER);
+
+        JLabel lapCountResultLabel = new JLabel("Liczba laptopów: ...");
+        ratioCountResultPanel.add(lapCountResultLabel, BorderLayout.EAST);
+
+        getLaptopCountButton.addActionListener(e -> {
+            String selectedRatio = (String) screenRatioList.getSelectedItem();
+            GetProportionLaptopsCountResponse response = laptopClient.getProportionLaptopsCountResponse(selectedRatio);
+            long laptopCount = response.getResult();
+            lapCountResultLabel.setText("Liczba laptopów: " + laptopCount);
+        });
     }
 }
