@@ -1,13 +1,12 @@
 package com.example.filedataprocessingclient.soapclient;
 
-import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProducerLaptopCountRequest;
-import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProducerLaptopCountResponse;
-import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProportionLaptopsCountRequest;
-import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProportionLaptopsCountResponse;
+import com.example.filedataprocessingclient.consumingwebservice.wsdl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
+
+import java.util.List;
 
 public class LaptopClient extends WebServiceGatewaySupport {
 
@@ -20,14 +19,12 @@ public class LaptopClient extends WebServiceGatewaySupport {
 
         log.info("Requesting laptop count for producer name: " + producerName);
 
-        GetProducerLaptopCountResponse response = (GetProducerLaptopCountResponse) getWebServiceTemplate()
+        return (GetProducerLaptopCountResponse) getWebServiceTemplate()
                 .marshalSendAndReceive(
                         "http://localhost:8080/ws/soapLaptops",
                         request,
                         new SoapActionCallback("http://spring.io/guides/gs-producing-web-service/getProducerLaptopCountRequest")
                 );
-
-        return response;
     }
 
     public GetProportionLaptopsCountResponse getProportionLaptopsCountResponse(String screenRatio) {
@@ -42,13 +39,27 @@ public class LaptopClient extends WebServiceGatewaySupport {
 
         log.info("Requesting laptop count for screen ratio: " + screenRatio);
 
-        GetProportionLaptopsCountResponse response = (GetProportionLaptopsCountResponse) getWebServiceTemplate()
+        return (GetProportionLaptopsCountResponse) getWebServiceTemplate()
                 .marshalSendAndReceive(
                         "http://localhost:8080/ws/soapLaptops",
                         request,
                         new SoapActionCallback("http://spring.io/guides/gs-producing-web-service/getProportionLaptopsCountRequest")
                 );
+    }
 
-        return response;
+    public GetLaptopListResponse getLaptopListResponse(List<String> propertyNames) {
+
+        GetLaptopListRequest request = new GetLaptopListRequest();
+        List<String> requestPropertyNames = request.getPropertyName();
+        requestPropertyNames.addAll(propertyNames);
+
+        log.info("Requesting laptop list with specified properties");
+
+        return (GetLaptopListResponse) getWebServiceTemplate()
+                .marshalSendAndReceive(
+                        "http://localhost:8080/ws/soapLaptops",
+                        request,
+                        new SoapActionCallback("http://spring.io/guides/gs-producing-web-service/getLaptopListRequest")
+                );
     }
 }

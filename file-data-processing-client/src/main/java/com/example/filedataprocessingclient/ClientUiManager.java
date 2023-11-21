@@ -1,6 +1,7 @@
 package com.example.filedataprocessingclient;
 
 
+import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetLaptopListResponse;
 import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProducerLaptopCountResponse;
 import com.example.filedataprocessingclient.consumingwebservice.wsdl.GetProportionLaptopsCountResponse;
 import com.example.filedataprocessingclient.soapclient.LaptopClient;
@@ -8,9 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.filedataprocessingclient.ComponentNames.*;
 
@@ -47,6 +56,7 @@ public class ClientUiManager {
 
         createProducerLaptopCountPanel(mainPanel);
         createScreenRatioLaptopCountPanel(mainPanel);
+        createLaptopListPanel(mainPanel);
         return mainPanel;
     }
 
@@ -113,6 +123,69 @@ public class ClientUiManager {
             GetProportionLaptopsCountResponse response = laptopClient.getProportionLaptopsCountResponse(selectedRatio);
             long laptopCount = response.getResult();
             lapCountResultLabel.setText("Liczba laptopów: " + laptopCount);
+        });
+    }
+
+    private void createLaptopListPanel(JPanel mainPanel) {
+        JPanel laptopListMainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(laptopListMainPanel, BorderLayout.SOUTH);
+
+        JPanel laptopListLabelPanel = new JPanel(new BorderLayout());
+        laptopListMainPanel.add(laptopListLabelPanel, BorderLayout.NORTH);
+
+        JLabel laptopListLabel = new JLabel("Wybierz atrybuty laptopów:");
+        laptopListLabelPanel.add(laptopListLabel, BorderLayout.NORTH);
+
+        // result line
+        JPanel laptopListOptionsPanel = new JPanel(new BorderLayout());
+        laptopListMainPanel.add(laptopListOptionsPanel, BorderLayout.CENTER);
+
+        JPanel comboBoxesPanel = new JPanel(new GridLayout(5, 1));
+        laptopListOptionsPanel.add(comboBoxesPanel, BorderLayout.WEST);
+
+        String[] laptopAttributes = {
+                "manufacturer",
+                "screenResolution",
+                "screenSize",
+                "screenType",
+                "screenResolution",
+                "hasTouchScreen",
+                "processorName",
+                "physicalCoresNum",
+                "clockSpeed",
+                "ramSize",
+                "discStorageSize",
+                "discType",
+                "graphicCardName",
+                "graphicCardMemory",
+                "osName",
+                "discReader",
+        };
+        List<JComboBox<String>> comboBoxes = new ArrayList<>();
+        for (int i = 0; i <= 5; i++) {
+            JComboBox<String> laptopAttributeList = new JComboBox<>(laptopAttributes);
+            comboBoxesPanel.add(laptopAttributeList);
+            comboBoxes.add(laptopAttributeList);
+        }
+
+        JButton getLaptopListButton = new JButton("Wyeksportuj laptopy do XML");
+        laptopListOptionsPanel.add(getLaptopListButton, BorderLayout.CENTER);
+
+        getLaptopListButton.addActionListener(e -> {
+            List<String> selectedLaptopAttributes = comboBoxes.stream()
+                    .map(box -> (String) box.getSelectedItem())
+                    .collect(Collectors.toList());
+
+            GetLaptopListResponse response = laptopClient.getLaptopListResponse(selectedLaptopAttributes);
+            try {
+                // fixme - jaxb exception !
+                JAXBContext jaxbContext = JAXBContext.newInstance(GetLaptopListResponse.class);
+                Marshaller marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                marshaller.marshal(response, new File("./laptop"));
+            } catch (JAXBException ex) {
+                throw new RuntimeException(ex);
+            }
         });
     }
 }
